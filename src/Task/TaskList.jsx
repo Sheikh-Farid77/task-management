@@ -38,11 +38,11 @@ const TaskList = ({ tasks, onEdit, onDelete, onFav }) => {
             >
               <td>
                 <button onClick={() => onFav(task.id)}>
-                {task.isFavorite ? (
-                  <FaStar color="yellow"></FaStar>
-                ) : (
-                  <FaStar color="gray"></FaStar>
-                )}
+                  {task.isFavorite ? (
+                    <FaStar color="yellow"></FaStar>
+                  ) : (
+                    <FaStar color="gray"></FaStar>
+                  )}
                 </button>
               </td>
               <td>{task.title}</td>
@@ -63,10 +63,18 @@ const TaskList = ({ tasks, onEdit, onDelete, onFav }) => {
               <td className="text-center capitalize">{task.priority}</td>
               <td>
                 <div className="flex items-center justify-center space-x-3">
-                  <button 
-                  onClick={()=> onDelete(task.id)}
-                  className="text-red-500">Delete</button>
-                  <button onClick={()=>onEdit(task)} className="text-blue-500">Edit</button>
+                  <button
+                    onClick={() => onDelete(task.id)}
+                    className="text-red-500"
+                  >
+                    Delete
+                  </button>
+                  <button
+                    onClick={() => onEdit(task)}
+                    className="text-blue-500"
+                  >
+                    Edit
+                  </button>
                 </div>
               </td>
             </tr>

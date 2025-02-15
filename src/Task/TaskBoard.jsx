@@ -3,6 +3,7 @@ import SearchTask from "./SearchTask";
 import TaskAction from "./TaskAction";
 import TaskList from "./TaskList";
 import AddTaskModal from "./AddTaskModal";
+import NoTaskFound from "./NoTaskFound";
 
 const TaskBoard = () => {
   const defaultTask = {
@@ -56,22 +57,22 @@ const TaskBoard = () => {
     setTasks([...tasks]);
   };
 
-  const handleFavorite = (taskId)=>{
-    const taskIndex = tasks.findIndex(task => task.id === taskId);
+  const handleFavorite = (taskId) => {
+    const taskIndex = tasks.findIndex((task) => task.id === taskId);
 
     const newTasks = [...tasks];
     newTasks[taskIndex].isFavorite = !newTasks[taskIndex].isFavorite;
 
     setTasks(newTasks);
-    
-  }
+  };
 
-  const handleSearch = (searchTerm)=>{
-    const filtered = tasks.filter(task => task.title.toLowerCase().includes(searchTerm.toLowerCase()));
+  const handleSearch = (searchTerm) => {
+    const filtered = tasks.filter((task) =>
+      task.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
-    setTasks([...filtered])
-
-  }
+    setTasks([...filtered]);
+  };
   return (
     <section className="mb-20" id="tasks">
       {showAddModal && (
@@ -92,12 +93,16 @@ const TaskBoard = () => {
             onDeleteAllClick={handleDeleteAllClick}
             onAddClick={() => setShowAddModal(true)}
           ></TaskAction>
-          <TaskList
-            tasks={tasks}
-            onDelete={handleDeleteTask}
-            onEdit={handleEditTask}
-            onFav={handleFavorite}
-          ></TaskList>
+          {tasks.length > 0 ? (
+            <TaskList
+              tasks={tasks}
+              onDelete={handleDeleteTask}
+              onEdit={handleEditTask}
+              onFav={handleFavorite}
+            ></TaskList>
+          ) : (
+            <NoTaskFound></NoTaskFound>
+          )}
         </div>
       </div>
     </section>
