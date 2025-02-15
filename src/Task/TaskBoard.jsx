@@ -17,14 +17,43 @@ const TaskBoard = () => {
 
   const [tasks, setTasks] = useState([defaultTask]);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [taskToUpdate, setTaskToUpdate] = useState(null);
 
-  const handleAddTask = (newTask) => {
-    setTasks([...tasks, newTask]);
+  const handleAddEditTask = (newTask, isAdd) => {
+    if (isAdd) {
+      setTasks([...tasks, newTask]);
+    } else {
+      setTasks(
+        tasks.map((task) => {
+          if (task.id === newTask.id) {
+            return newTask;
+          }
+          return task;
+        })
+      );
+    }
+
     setShowAddModal(false);
   };
+
+  const handleEditTask = (task) => {
+    setTaskToUpdate(task);
+    setShowAddModal(true);
+  };
+
+  const handleCloseClick = ()=>{
+    setShowAddModal(false);
+    setTaskToUpdate(null);
+  }
   return (
     <section className="mb-20" id="tasks">
-      {showAddModal && <AddTaskModal onSave={handleAddTask}></AddTaskModal>}
+      {showAddModal && (
+        <AddTaskModal
+          taskToUpdate={taskToUpdate}
+          onSave={handleAddEditTask}
+          onCloseClick={handleCloseClick}
+        ></AddTaskModal>
+      )}
       <div className="container mx-auto">
         {/* <!-- Search Box --> */}
         <div className="p-2 flex justify-end">
@@ -33,7 +62,7 @@ const TaskBoard = () => {
         {/* Search Box Ends  */}
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
           <TaskAction onAddClick={() => setShowAddModal(true)}></TaskAction>
-          <TaskList tasks={tasks}></TaskList>
+          <TaskList tasks={tasks} onEdit={handleEditTask}></TaskList>
         </div>
       </div>
     </section>
