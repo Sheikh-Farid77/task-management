@@ -107,7 +107,10 @@ const AddTaskModal = ({ onSave, taskToUpdate, onCloseClick }) => {
           <button
             type="submit"
             className="rounded bg-blue-600 px-4 py-2 text-white transition-all hover:opacity-80"
-            onClick={() => onSave(task, isAdd)}
+            onClick={(event) => {
+              event.preventDefault();
+              onSave(task, isAdd);
+            }}
           >
             Save
           </button>
