@@ -41,10 +41,20 @@ const TaskBoard = () => {
     setShowAddModal(true);
   };
 
-  const handleCloseClick = ()=>{
+  const handleCloseClick = () => {
     setShowAddModal(false);
     setTaskToUpdate(null);
-  }
+  };
+
+  const handleDeleteTask = (taskId) => {
+    const tasksAfterDelete = tasks.filter((task) => task.id !== taskId);
+    setTasks(tasksAfterDelete);
+  };
+
+  const handleDeleteAllClick = () => {
+    tasks.length = 0;
+    setTasks([...tasks]);
+  };
   return (
     <section className="mb-20" id="tasks">
       {showAddModal && (
@@ -61,8 +71,15 @@ const TaskBoard = () => {
         </div>
         {/* Search Box Ends  */}
         <div className="rounded-xl border border-[rgba(206,206,206,0.12)] bg-[#1D212B] px-6 py-8 md:px-9 md:py-16">
-          <TaskAction onAddClick={() => setShowAddModal(true)}></TaskAction>
-          <TaskList tasks={tasks} onEdit={handleEditTask}></TaskList>
+          <TaskAction
+            onDeleteAllClick={handleDeleteAllClick}
+            onAddClick={() => setShowAddModal(true)}
+          ></TaskAction>
+          <TaskList
+            tasks={tasks}
+            onDelete={handleDeleteTask}
+            onEdit={handleEditTask}
+          ></TaskList>
         </div>
       </div>
     </section>
